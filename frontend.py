@@ -60,12 +60,7 @@ sql_create_price_table = """ CREATE TABLE IF NOT EXISTS price (
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return render_template('index.html',
-                            title='Overview')
-
-@app.route('/display')
-def display():
+def route():
     database = "evetech.db"
     conn = create_connection(database)
     if conn is not None:
@@ -73,7 +68,7 @@ def display():
         create_table(conn, sql_create_price_table)
     else:
         print("Error! cannot create the database connection.")
-    return render_template('table_overview.html',
+    return render_template('table_overview_2.html',
                             title='Overview',
                             rows=list_products(conn))
 
