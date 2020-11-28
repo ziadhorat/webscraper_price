@@ -1,0 +1,14 @@
+<a href="/">CLICK HERE TO GO HOME</a>
+<p>{{ item_name }}</p>
+<div style='display: grid'
+>
+{% for row in rows %}
+<tr>
+    <td>{{ row[0] }} &nbsp &nbsp &nbsp</td>
+    <td>{{ row[1] }} &nbsp &nbsp &nbsp</td>
+    <td>{{ row[2] }} &nbsp &nbsp &nbsp</td>
+    <td>{{ row[3] }} &nbsp &nbsp &nbsp</td>
+    <td>{{ row[4] }} &nbsp &nbsp &nbsp</td></br>
+</tr>
+{% endfor %}
+</div>
