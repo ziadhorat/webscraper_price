@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 from sqlite3 import Error
+from datetime import date
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database """
@@ -41,11 +42,12 @@ def find_product(conn, name):
 
 def populate_price(conn, item_id, price):
     """ populates price table in SQLite """
-    sql = ''' INSERT INTO price(item_id,price)
-              VALUES(?,?) '''
+    sql = ''' INSERT INTO price(item_id,price,date)
+              VALUES(?,?,?) '''
     cur = conn.cursor()
-    cur.execute('''INSERT INTO price(item_id,price)
-        VALUES(?,?)''',(str(item_id),str(price),))
+    price = "R"+str(price)
+    cur.execute('''INSERT INTO price(item_id,price,date)
+        VALUES(?,?,?)''',(str(item_id),price,date.today(),))
     conn.commit()
     return cur.lastrowid
 
@@ -80,10 +82,12 @@ sql_create_product_table = """ CREATE TABLE IF NOT EXISTS product (
                                     name text NOT NULL,
                                     type text NOT NULL
                                 );"""
-sql_create_price_table = """ CREATE TABLE IF NOT EXISTS price (
-                                    id integer PRIMARY KEY,
-                                    item_id integer NOT NULL,
-                                    price text NOT NULL
+sql_create_price_table = """ CREATE TABLE price (
+                                    `id`	integer,
+                                    `item_id`	integer NOT NULL,
+                                    `price`	text NOT NULL,
+                                    `date`	TEXT,
+                                    PRIMARY KEY(`id`)
                                 );"""
 
 database = "evetech.db"

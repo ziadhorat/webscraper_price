@@ -44,10 +44,12 @@ sql_create_product_table = """ CREATE TABLE IF NOT EXISTS product (
                                     name text NOT NULL,
                                     type text NOT NULL
                                 );"""
-sql_create_price_table = """ CREATE TABLE IF NOT EXISTS price (
-                                    id integer PRIMARY KEY,
-                                    item_id integer NOT NULL,
-                                    price text NOT NULL
+sql_create_price_table = """ CREATE TABLE `price` (
+                                    `id`	integer,
+                                    `item_id`	integer NOT NULL,
+                                    `price`	text NOT NULL,
+                                    `date`	TEXT,
+                                    PRIMARY KEY(`id`)
                                 );"""
 
 database = "evetech.db"
