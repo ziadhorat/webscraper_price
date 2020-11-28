@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 from sqlite3 import Error
+import re
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database """
@@ -35,9 +36,13 @@ def select_product(conn, id):
     cur.execute("SELECT * FROM price WHERE item_id=?",(id))
     products = cur.fetchall()
     return products
-    # for product in products:
-    #     print(str(product[0]) + "    " + str(product[1]) + "    " + product[2])
-    #     # print("found")
+
+def select_product_name(conn, id):
+    cur = conn.cursor()
+    id = int(id),
+    cur.execute("SELECT name FROM product WHERE id=?",(id))
+    products = cur.fetchone()
+    return products
 
 sql_create_product_table = """ CREATE TABLE IF NOT EXISTS product (
                                     id integer PRIMARY KEY,
@@ -82,6 +87,8 @@ def query():
         create_table(conn, sql_create_price_table)
     else:
         print("Error! cannot create the database connection.")
+    item_name=select_product_name(conn, id)
     return render_template('table_overview.html',
                             title='Overview',
-                            rows=select_product(conn, id))
+                            rows=select_product(conn, id),
+                            item_name=item_name[0])
