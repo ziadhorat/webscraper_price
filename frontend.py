@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
@@ -56,7 +56,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "/display or /query"
+    return render_template('index.html',
+                            title='Overview')
 
 @app.route('/display')
 def display():
@@ -71,8 +72,9 @@ def display():
                             title='Overview',
                             rows=list_products(conn))
 
-@app.route('/query/<id>')
-def query(id):
+@app.route("/query", methods=['GET'])
+def query():
+    id = request.args.get('id', None)
     database = "evetech.db"
     conn = create_connection(database)
     if conn is not None:
